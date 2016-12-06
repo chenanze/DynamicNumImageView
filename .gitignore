@@ -1,8 +1,13 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
+.idea/workspace.xml
 /.idea/libraries
 .DS_Store
 /build
 /captures
+freeline
+freeline_project_description.json
+freeline.py
+.idea/markdown-navigator/
+projectFilesBackup/

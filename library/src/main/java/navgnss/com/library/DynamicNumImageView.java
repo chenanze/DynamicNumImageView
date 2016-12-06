@@ -56,7 +56,6 @@ public class DynamicNumImageView extends RelativeLayout {
         mContext = context;
         mAttrs = attrs;
         initView();
-        Log.d("test1", "DynamicNumImageView: 2");
     }
 
     @Override
@@ -64,26 +63,44 @@ public class DynamicNumImageView extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mWidthSize = MeasureSpec.getSize(widthMeasureSpec);
         mHeightSize = MeasureSpec.getSize(heightMeasureSpec);
+        Log.d("size", "mWidthSize: " + mWidthSize);
+        Log.d("size", "mHeightSize: " + mHeightSize);
+        int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = getChildAt(i);
+//            child.measure(widthMeasureSpec, heightMeasureSpec);
+            measureChild(child,widthMeasureSpec,heightMeasureSpec);
+        }
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        Log.d("test", "onLayout: ");
-        Log.d("test", "ChildCount: " + getChildCount());
-        if (!isNumberViewAdded) {
-            addCustomView();
-            isNumberViewAdded = true;
-            Log.d("test", "inChildCount: " + getChildCount());
+        Log.d("size", "left:" + l + " top:" + t + " right:" + r + " bottom:" + b);
+        int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = getChildAt(i);
+            child.layout(l, t, r, b);
+//            child.layout(l, t, r, b);
+//            child.layout(100, 100, 100, 100);
         }
 
+//        for (int i = 0; i < childCount; i++) {
+//            View child = this.getChildAt(i);
+//            LayoutParams lParams = (LayoutParams) child.getLayoutParams();
+//            child.layout(lParams.left, lParams.top, lParams.left + childWidth,
+//                    lParams.top + childHeight);
+//        }
 
+        Log.d("test", "onLayout: ");
+        Log.d("test", "ChildCount: " + getChildCount());
     }
 
     private void addCustomView() {
         mCustomView = new CustomView(mContext);
 //        testView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-        LayoutParams params = new LayoutParams((int) (mWidthSize * mNumberViewScale), (int) (mHeightSize * mNumberViewScale));
+//        LayoutParams params = new LayoutParams((int) (mWidthSize * mNumberViewScale), (int) (mHeightSize * mNumberViewScale));
+        LayoutParams params = new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         switch (mNumberVertexPosition) {
             case NUMBER_VERTEX_POSITION_TOP_RIGHT:
                 params.addRule(ALIGN_PARENT_RIGHT);
@@ -104,16 +121,21 @@ public class DynamicNumImageView extends RelativeLayout {
         }
 
         addView(mCustomView, params);
+//        addView(mCustomView);
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        Log.d("test", "onDraw: ");
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View childAt = getChildAt(i);
+            childAt.draw(canvas);
+        }
+        Log.d("test", "dispatchDraw: ");
     }
 
     private void initView() {
-        Log.d("test", "initPaint: ");
         TypedArray typedArray = mContext.obtainStyledAttributes(mAttrs, R.styleable.DynamicNumImageView);
 
         Drawable thumbDrawable = typedArray.getDrawable(R.styleable.DynamicNumImageView_android_thumb);
@@ -129,11 +151,13 @@ public class DynamicNumImageView extends RelativeLayout {
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         addView(mImageView, params);
 
+        if (!isNumberViewAdded) {
+            addCustomView();
+            isNumberViewAdded = true;
+        }
     }
 
     private class CustomView extends View {
-
-
         private int mCustomViewWidthSize;
         private int mCustomViewHeightSize;
         private int mBaseline;
@@ -141,6 +165,7 @@ public class DynamicNumImageView extends RelativeLayout {
 
         public CustomView(Context context) {
             super(context);
+            Log.d("test", "CustomView Constrictor: ");
         }
 
         public void initPaint() {
@@ -165,9 +190,22 @@ public class DynamicNumImageView extends RelativeLayout {
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            mCustomViewWidthSize = MeasureSpec.getSize(widthMeasureSpec);
-            mCustomViewHeightSize = MeasureSpec.getSize(heightMeasureSpec);
+//            mCustomViewWidthSize = MeasureSpec.getSize(widthMeasureSpec);
+//            mCustomViewHeightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+            mCustomViewWidthSize = (int) (mWidthSize * mNumberViewScale);
+            mCustomViewHeightSize = (int) (mHeightSize * mNumberViewScale);
+            Log.d("size", "mCustomViewWidthSize: " + mCustomViewWidthSize);
+            Log.d("size", "mCustomViewHeightSize: " + mCustomViewHeightSize);
+            Log.d("test", " CustomView onMeasure: ");
+
             initPaint();
+        }
+
+        @Override
+        protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+            super.onLayout(changed, left, top, right, bottom);
+            Log.d("c_size", "left:" + left + " top:" + top + " right:" + right + " bottom:" + bottom);
         }
 
         @Override
@@ -177,7 +215,8 @@ public class DynamicNumImageView extends RelativeLayout {
             canvas.drawCircle(mCustomViewWidthSize / 2, mCustomViewHeightSize / 2, mCustomViewWidthSize / 2, mCirclePaint);
 
             if (mTextContent != null) {
-                mBaseline = (getMeasuredHeight() - (mFontMetrics.descent - mFontMetrics.ascent)) / 2 - mFontMetrics.ascent;
+//                mBaseline = (getMeasuredHeight() - (mFontMetrics.descent - mFontMetrics.ascent)) / 2 - mFontMetrics.ascent;
+                mBaseline = (mCustomViewHeightSize - (mFontMetrics.descent - mFontMetrics.ascent)) / 2 - mFontMetrics.ascent;
                 canvas.drawText(mTextContent, mCustomViewWidthSize / 2, mBaseline, mTextPaint);
             }
             Log.d("test", "CustomView onDraw: ");

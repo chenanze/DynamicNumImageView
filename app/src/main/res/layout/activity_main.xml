@@ -65,7 +65,7 @@
         android:layout_height="wrap_content">
 
         <navgnss.com.library.DynamicNumImageView
-            android:id="@+id/test_1_dniv"
+            android:id="@+id/test_1_div_1"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:number_view_scale="0.4"
@@ -78,7 +78,7 @@
             />
 
         <navgnss.com.library.DynamicNumImageView
-            android:id="@+id/test_2_dniv"
+            android:id="@+id/test_2_div_1"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:number_view_scale="0.4"
@@ -91,7 +91,7 @@
             />
 
         <navgnss.com.library.DynamicNumImageView
-            android:id="@+id/test_3_dniv"
+            android:id="@+id/test_3_div_1"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:number_view_scale="0.4"
@@ -104,7 +104,7 @@
             />
 
         <navgnss.com.library.DynamicNumImageView
-            android:id="@+id/test_4_dniv"
+            android:id="@+id/test_4_div_1"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:number_view_scale="0.4"
@@ -122,7 +122,7 @@
         android:layout_height="wrap_content">
 
         <navgnss.com.library.DynamicNumImageView
-            android:id="@+id/test_1_dniv"
+            android:id="@+id/test_1_div_2"
             android:layout_width="120dp"
             android:layout_height="120dp"
             app:number_view_scale="0.4"
@@ -134,7 +134,7 @@
             />
 
         <navgnss.com.library.DynamicNumImageView
-            android:id="@+id/test_2_dniv"
+            android:id="@+id/test_2_div_2"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:number_view_scale="0.4"
@@ -146,7 +146,7 @@
             />
 
         <navgnss.com.library.DynamicNumImageView
-            android:id="@+id/test_3_dniv"
+            android:id="@+id/test_3_div_2"
             android:layout_width="90dp"
             android:layout_height="90dp"
             app:number_view_scale="0.4"
@@ -159,7 +159,7 @@
             />
 
         <navgnss.com.library.DynamicNumImageView
-            android:id="@+id/test_4_dniv"
+            android:id="@+id/test_4_div_2"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:number_view_scale="0.4"
