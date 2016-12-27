@@ -6,7 +6,7 @@ A android weight that can custom style
 
 Preview
 
-
+![](device-2016-12-06-163517_small.png)
 
 Install
 
